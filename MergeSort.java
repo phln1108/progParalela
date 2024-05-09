@@ -1,7 +1,8 @@
 
-public class MergeSort {
+public class MergeSort extends Sort{
+    MergeSort(){}
 
-    public static void parallelSort(int[] v) {
+    public static void parallelSort(int[] v, int numThreads) {
         if (v.length < 2) 
             return;
 
@@ -19,14 +20,14 @@ public class MergeSort {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                parallelSort(l);
+                parallelSort(l, numThreads);
             }
         });
 
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                parallelSort(r);
+                parallelSort(r, numThreads);
             }
         });
 

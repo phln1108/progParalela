@@ -1,8 +1,11 @@
-public class CountingSort {
+import java.util.Arrays;
 
-    public static void parallelSort(int[] v, int maxValue) {
+public class CountingSort extends Sort{
+    CountingSort(){}
 
-        final int numThreads = v.length/10;
+    public static void parallelSort(int[] v, int numThreads) {
+        int maxValue =  Arrays.stream(v).max().getAsInt();
+
         final int blockSize = v.length / numThreads;
 
         Thread[] threads = new Thread[numThreads];
@@ -29,7 +32,9 @@ public class CountingSort {
 
     private static void sort(int[] v, int start, int end, int maxValue) {
         int[] counts = new int[maxValue + 1];
-
+        System.out.println(start);
+        System.out.println(end);
+        System.out.println(maxValue);
         for (int i = start; i < end; i++) 
             counts[v[i]]++;
 
@@ -44,7 +49,7 @@ public class CountingSort {
         System.out.println(end - start);
         System.out.println(sortedBlock.length);
         
-        for (int i = start; i < end; i++) {
+        for (int i = 0; i < sortedBlock.length; i++) {
             v[start + i] = sortedBlock[i];
         }
 

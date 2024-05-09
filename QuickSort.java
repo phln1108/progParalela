@@ -1,6 +1,11 @@
-public class QuickSort {
+public class QuickSort extends Sort{
+    QuickSort(){}
 
-    static void parallelSort(int[] v, int low, int high) {
+    public static void parallelSort(int[] v, int numThreads) {
+        parallelSort(v, 0, v.length-1);
+    }
+
+    private static void parallelSort(int[] v, int low, int high) {
         if (low < high) {
             int pivotIndex = partition(v, low, high);
 
@@ -30,7 +35,11 @@ public class QuickSort {
         }
     }
 
-    public static void sort(int[] v, int low, int high) {
+    public static void sort(int[] v) {
+        sort(v, 0, v.length-1);
+    }
+
+    private static void sort(int[] v, int low, int high) {
         if (low < high) {
             int pivotIndex = partition(v, low, high);
 

@@ -2,7 +2,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class BubbleSort{
+public class BubbleSort extends Sort{
+    BubbleSort(){}
+
     public static void parallelSort(int[] v, int numThreads) {
         int n = v.length;
         ExecutorService executor = Executors.newFixedThreadPool(numThreads);
