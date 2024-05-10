@@ -16,16 +16,22 @@ public class Main {
         getData(new CountingSort());
         getData(new MergeSort());
         getData(new QuickSort());
+
+        try {
+            Process p = Runtime.getRuntime().exec("python3 chart.py");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("static-access")
     static void getData(Sort sort) {
         ArrayList<String> resultsSerial = new ArrayList<>();
         ArrayList<String> resultsParallel = new ArrayList<>();
-        resultsSerial.add("Tamanho,Tempo");
-        resultsParallel.add("Tamanho,Threads,Tempo");
+        resultsSerial.add("Size,Time");
+        resultsParallel.add("Size,Threads,Time");
 
-        for (int i = 10; i < 1000000000; i *= 10) {
+        for (int i = 10; i < 1000000; i *= 10) {
             int[] v = randomV(i);
             long startSerial = System.nanoTime();
             sort.sort(Arrays.copyOf(v, i));
@@ -33,7 +39,7 @@ public class Main {
             long time = endSerial - startSerial;
             resultsSerial.add(i+","+time);
 
-            for (int j = 1; j <= 100; j++) {
+            for (int j = 1; j <= 10; j++) {
                 if (i < j)
                     continue;
                 long startParallel = System.nanoTime();
@@ -57,7 +63,7 @@ public class Main {
 
     static void make_csv(ArrayList<String> results, Sort sort, boolean parallel) {
         try (FileWriter writer = new FileWriter(
-                sort.getClass().getName() + "_" + (parallel ? "Parallel" : "Serial") + ".csv")) {
+               "csvs/" + sort.getClass().getName() + "_" + (parallel ? "Parallel" : "Serial") + ".csv")) {
             for (String result : results) {
                 writer.append(result);
                 writer.append("\n");
