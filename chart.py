@@ -49,7 +49,7 @@ def plot(sort):
     p[0].set_title(f'{sort} Serial') 
 
     plt.savefig(f"./charts/{sort}.png")
-    plt.show()
+    # plt.show()
 
     
 plot("BubbleSort")

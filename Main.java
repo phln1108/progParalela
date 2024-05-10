@@ -37,7 +37,7 @@ public class Main {
             sort.sort(Arrays.copyOf(v, i));
             long endSerial = System.nanoTime();
             long time = endSerial - startSerial;
-            resultsSerial.add(i+","+time);
+            resultsSerial.add(i + "," + time);
 
             for (int j = 1; j <= 10; j++) {
                 if (i < j)
@@ -45,7 +45,7 @@ public class Main {
                 long startParallel = System.nanoTime();
                 sort.parallelSort(Arrays.copyOf(v, i), j);
                 long endParallel = System.nanoTime();
-                resultsParallel.add(i+","+j+","+(endParallel - startParallel));
+                resultsParallel.add(i + "," + j + "," + (endParallel - startParallel));
             }
         }
 
@@ -53,17 +53,18 @@ public class Main {
         make_csv(resultsParallel, sort, true);
     }
 
-    static int[] randomV(int size){
+    static int[] randomV(int size) {
         int[] array = new int[size];
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             array[i] = (int) (Math.random() * 1000);
         }
         return array;
     }
 
     static void make_csv(ArrayList<String> results, Sort sort, boolean parallel) {
-        try (FileWriter writer = new FileWriter(
-               "csvs/" + sort.getClass().getName() + "_" + (parallel ? "Parallel" : "Serial") + ".csv")) {
+        String dir = isWindows() ? "csvs\\\\" : "csvs/";
+
+        try (FileWriter writer = new FileWriter(dir + sort.getClass().getName() + "_" + (parallel ? "Parallel" : "Serial") + ".csv")) {
             for (String result : results) {
                 writer.append(result);
                 writer.append("\n");
@@ -82,5 +83,18 @@ public class Main {
             System.out.print(i + ", ");
         }
         System.out.println("}");
+    }
+
+    private static String OS = null;
+
+    public static String getOsName() {
+        if (OS == null) {
+            OS = System.getProperty("os.name");
+        }
+        return OS;
+    }
+
+    public static boolean isWindows() {
+        return getOsName().startsWith("Windows");
     }
 }
