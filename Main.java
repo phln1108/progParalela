@@ -11,6 +11,9 @@ public class Main {
      * - MergeSort
      * - QuickSort
      */
+    
+    // mude aqui entre python e python3 (dependendo de sua instalação)
+    static String python = "python3";
     public static void main(String[] args) {
         getData(new BubbleSort());
         getData(new CountingSort());
@@ -18,7 +21,7 @@ public class Main {
         getData(new QuickSort());
 
         try {
-            Process p = Runtime.getRuntime().exec("python3 chart.py");
+            Process p = Runtime.getRuntime().exec(python+" chart.py");
         } catch (IOException e) {
             e.printStackTrace();
         }
