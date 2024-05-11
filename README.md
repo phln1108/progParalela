@@ -19,11 +19,10 @@ Os seguintes algoritmos de ordenação foram implementados tanto na forma sequen
 
 ---
 ### Importante
-Para a execução do código python é necessário intalar certas bibliotecas
+Para a execução do código python é necessário instalar certas bibliotecas
 * Pandas &rarr; `pip install pandas` 
 * MatPlotLib &rarr; `pip install matplotlib` 
 * Numpy &rarr; `pip install numpy`
 
-Talvez faça-se necessário a mudar de `"python3"` para `"python"` ou aocontrário dependendo da intalação realizada no seu computador
-essa parte está localizada no arquivo Main.java na linha 16 &rarr; `static String python = "python3";`
+Talvez faça-se necessário mudar de a variável `python` localizada no arquivo Main.java na linha 16 &rarr; `static String python = "python3";` de `"python3"` para `"python"` ou aocontrário dependendo da intalação python realizada no seu computador.
 
