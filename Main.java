@@ -1,7 +1,4 @@
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
     /*
@@ -11,67 +8,29 @@ public class Main {
      * - MergeSort
      * - QuickSort
      */
-    
+
+    // Tamanho de das amostras de cada rodada
+    static int[] dataAmount = { 100000, 200000, 300000, 500000 ,1000000};
+    // static int[] dataAmount = { 1000, 2000, 3000, 5000 ,10000};
+
+    // Quantidade de threads utilizadas
+    static int[] threadAmount = { 2, 4, 6 };
+
+    // quantas veze ele irá rodar para pegar a media do tempo de ordenação
+    static int turns = 1;
+
     // mude aqui entre python e python3 (dependendo de sua instalação)
     static String python = "python3";
+
     public static void main(String[] args) {
-        getData(new BubbleSort());
-        getData(new CountingSort());
-        getData(new MergeSort());
-        getData(new QuickSort());
+        
+        // BubbleSort.getData(dataAmount, threadAmount, turns);
+        QuickSort.getData(dataAmount, threadAmount, turns);
+        MergeSort.getData(dataAmount, threadAmount, turns);
+        CountingSort.getData(dataAmount, threadAmount, turns);
 
         try {
-            Process p = Runtime.getRuntime().exec(python+" chart.py");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressWarnings("static-access")
-    static void getData(Sort sort) {
-        ArrayList<String> resultsSerial = new ArrayList<>();
-        ArrayList<String> resultsParallel = new ArrayList<>();
-        resultsSerial.add("Size,Time");
-        resultsParallel.add("Size,Threads,Time");
-
-        for (int i = 10; i < 1000000; i *= 10) {
-            int[] v = randomV(i);
-            long startSerial = System.nanoTime();
-            sort.sort(Arrays.copyOf(v, i));
-            long endSerial = System.nanoTime();
-            long time = endSerial - startSerial;
-            resultsSerial.add(i + "," + time);
-
-            for (int j = 1; j <= 10; j++) {
-                if (i < j)
-                    continue;
-                long startParallel = System.nanoTime();
-                sort.parallelSort(Arrays.copyOf(v, i), j);
-                long endParallel = System.nanoTime();
-                resultsParallel.add(i + "," + j + "," + (endParallel - startParallel));
-            }
-        }
-
-        make_csv(resultsSerial, sort, false);
-        make_csv(resultsParallel, sort, true);
-    }
-
-    static int[] randomV(int size) {
-        int[] array = new int[size];
-        for (int i = 0; i < size; i++) {
-            array[i] = (int) (Math.random() * 1000);
-        }
-        return array;
-    }
-
-    static void make_csv(ArrayList<String> results, Sort sort, boolean parallel) {
-        String dir = isWindows() ? "csvs\\\\" : "csvs/";
-
-        try (FileWriter writer = new FileWriter(dir + sort.getClass().getName() + "_" + (parallel ? "Parallel" : "Serial") + ".csv")) {
-            for (String result : results) {
-                writer.append(result);
-                writer.append("\n");
-            }
+            Runtime.getRuntime().exec(python + " chart.py");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,18 +45,5 @@ public class Main {
             System.out.print(i + ", ");
         }
         System.out.println("}");
-    }
-
-    private static String OS = null;
-
-    public static String getOsName() {
-        if (OS == null) {
-            OS = System.getProperty("os.name");
-        }
-        return OS;
-    }
-
-    public static boolean isWindows() {
-        return getOsName().startsWith("Windows");
     }
 }

@@ -2,34 +2,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def plotSerial(sort):
-    data = pd.read_csv(f"./csvs/{sort}_Serial.csv")
-
-    plt.plot(data['Size'], data['Time'])
-    plt.xlabel('Size')
-    plt.ylabel('Time')
-    plt.title(f'{sort} Serial')   
-    plt.savefig(f"./charts/{sort}_Serial.png")
-    # plt.show()
-
-def plotParallel(sort):
-    data = pd.read_csv(f"./csvs/{sort}_Parallel.csv", sep=',')
-    data['Time'] = data.groupby(['Size', 'Threads'])['Time'].transform('mean')
-
-    for threads in data['Threads'].unique():
-        plt.plot(data[data['Threads'] == threads]['Size'], data[data['Threads'] == threads]['Time'], label=f'{threads} Threads')
-    
-    plt.xlabel('Size')
-    plt.ylabel('Time')
-    plt.title(f'{sort} Parallel')
-    plt.legend()
-    plt.grid(True)
-    plt.savefig(f"./charts/{sort}_Parallel.png")
-    # plt.show()
-
 def plot(sort):
     serial = pd.read_csv(f"./csvs/{sort}_Serial.csv")
-    parallel = pd.read_csv(f"./csvs/{sort}_Parallel.csv", sep=',')
+    parallel = pd.read_csv(f"./csvs/{sort}_Parallel.csv")
     # parallel['Time'] = parallel.groupby(['Size', 'Threads'])['Time'].transform('mean')
 
     fig , p = plt.subplots(nrows=1, ncols=2, figsize=(16, 8))
@@ -47,12 +22,20 @@ def plot(sort):
     p[0].set_xlabel('Size')
     p[0].set_ylabel('Time')
     p[0].set_title(f'{sort} Serial') 
+    p[0].grid(True)
+
+    # Determine the maximum time value from both datasets
+    max_time = max(serial['Time'].max(), parallel['Time'].max())
+
+    # Set the same y-axis limit for both subplots
+    p[0].set_ylim(0, max_time)
+    p[1].set_ylim(0, max_time)
 
     plt.savefig(f"./charts/{sort}.png")
     # plt.show()
 
     
-plot("BubbleSort")
+# plot("BubbleSort")
 plot("CountingSort")
 plot("MergeSort")
 plot("QuickSort")
