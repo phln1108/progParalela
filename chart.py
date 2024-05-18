@@ -35,7 +35,7 @@ def plot(sort):
     # plt.show()
 
     
-# plot("BubbleSort")
+plot("BubbleSort")
 plot("CountingSort")
 plot("MergeSort")
 plot("QuickSort")
